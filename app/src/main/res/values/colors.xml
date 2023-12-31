@@ -3,4 +3,6 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="toolbar_color">#FF18D820</color>
+    <color name="date_color">#6418EC</color>
+    <color name="expense_amount">#ED0909</color>
 </resources>
