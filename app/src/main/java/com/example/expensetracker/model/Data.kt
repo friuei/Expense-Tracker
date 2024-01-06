@@ -4,5 +4,6 @@ data class Data(
     var amount: Int = 0,
     var type: String = "",
     var id: String = "",
-    var date: String = ""
+    var date: String = "",
+    var timestamp: Long = 0L
 )
