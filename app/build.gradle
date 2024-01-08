@@ -48,4 +48,5 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation 'com.firebaseui:firebase-ui-database:8.0.2'
     implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

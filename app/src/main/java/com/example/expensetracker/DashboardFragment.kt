@@ -19,6 +19,10 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.expensetracker.model.Data
 import com.example.expensetracker.model.SavingsThreshold
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -139,6 +143,7 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         addMonthlyBoxes()
+        setupLineChart()
         calculateMonthlySavings()
     }
 
@@ -355,7 +360,7 @@ class DashboardFragment : Fragment() {
 
     private fun getMonthStartEndTimestamps(monthIndex: Int): Pair<Long, Long> {
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR)) // Set to current year
+        calendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
         val startOfMonth = getStartOfMonthTimestamp(calendar, monthIndex)
         val endOfMonth = getEndOfMonthTimestamp(calendar, monthIndex)
         return Pair(startOfMonth, endOfMonth)
@@ -422,6 +427,42 @@ class DashboardFragment : Fragment() {
             )
         }
     }
+
+    private fun setupLineChart() {
+        val entries = ArrayList<Entry>()
+        val months = arrayOf("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+        uid?.let { userId ->
+            months.forEachIndexed { index, _ ->
+                val startEndTimestamps = getMonthStartEndTimestamps(index)
+
+                mExpenseDatabase.child(userId)
+                    .orderByChild("timestamp")
+                    .startAt(startEndTimestamps.first.toDouble())
+                    .endAt(startEndTimestamps.second.toDouble())
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val totalExpense = dataSnapshot.children.sumOf { it.getValue(Data::class.java)?.amount ?: 0 }
+
+                            entries.add(Entry(index.toFloat(), totalExpense.toFloat()))
+
+                            if (entries.size == months.size) {
+                                val lineDataSet = LineDataSet(entries, "Monthly Expenses")
+                                val lineData = LineData(lineDataSet)
+                                view?.findViewById<LineChart>(R.id.line_chart)?.data = lineData
+                                view?.findViewById<LineChart>(R.id.line_chart)?.invalidate()
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+
+                        }
+                    })
+            }
+        }
+    }
+
 
     companion object {
         /**

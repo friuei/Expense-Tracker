@@ -115,11 +115,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:contentDescription="boxes"
                 android:gravity="center"
                 android:orientation="horizontal">
 
             </LinearLayout>
         </HorizontalScrollView>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="250dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
