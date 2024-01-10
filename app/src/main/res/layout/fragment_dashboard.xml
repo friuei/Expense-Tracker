@@ -39,22 +39,6 @@
                     </TextView>
 
                 </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:text="Expense"
-                        android:layout_height="wrap_content">
-
-                    </TextView>
-
-                </RelativeLayout>
 
             </LinearLayout>
             <LinearLayout
@@ -74,23 +58,6 @@
                         android:textAppearance="?android:textAppearanceLarge"
                         android:textColor="@android:color/holo_green_dark"
                         android:id="@+id/income_set_result"
-                        android:text="0.0"
-                        android:layout_height="wrap_content">
-
-                    </TextView>
-
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:id="@+id/expense_set_result"
                         android:text="0.0"
                         android:layout_height="wrap_content">
 

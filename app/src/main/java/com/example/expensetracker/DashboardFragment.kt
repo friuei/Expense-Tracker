@@ -71,6 +71,9 @@ class DashboardFragment : Fragment() {
     private lateinit var mIncomeDatabase: DatabaseReference
     private lateinit var mExpenseDatabase: DatabaseReference
 
+    private lateinit var totalIncomeResult: TextView
+    private lateinit var totalExpenseResult: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -97,6 +100,7 @@ class DashboardFragment : Fragment() {
         fab_income_txt = myview.findViewById(R.id.income_ft_text)
         fab_expense_txt = myview.findViewById(R.id.expense_ft_text)
         fab_threshold_txt = myview.findViewById(R.id.threshold_ft_text)
+        totalIncomeResult = myview.findViewById(R.id.income_set_result)
 
         fadeOpen = AnimationUtils.loadAnimation(activity, R.anim.fade_open)
         fadeClose = AnimationUtils.loadAnimation(activity, R.anim.fade_close)
@@ -135,6 +139,22 @@ class DashboardFragment : Fragment() {
                 isOpen = true
             }
         }
+
+        mIncomeDatabase.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var totalsum = 0
+                for(mySnapshot: DataSnapshot in snapshot.children){
+                    val data: Data? = mySnapshot.getValue(Data::class.java)
+                    totalsum+=data?.amount!!
+                    val stResult: String = totalsum.toString()
+                    totalIncomeResult.setText(stResult)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
 
         return myview
     }
